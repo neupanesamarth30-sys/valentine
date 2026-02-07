@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day, bishuuuu!</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f30b0b; text-align: center; padding: 20px; }
+        img { max-width: 300px; border-radius: 10px; margin: 20px; }
+        .letter { max-width: 600px; margin: 0 auto; font-size: 18px; line-height: 1.6; }
+        form { max-width: 600px; margin: 20px auto; text-align: left; }
+        input, textarea, button { margin: 10px 0; padding: 8px; width: 100%; }
+        #answers { display: none; margin-top: 20px; text-align: left; background: #fff; padding: 10px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Happy Valentine's Day, My Love!</h1>
+    <img src="WIN_20251227_14_34_58_Pro.jpg" alt="My beautiful girlfriend">  <!-- Replace with your image file -->
+    <div class="letter">
+        <p>Dear [bishweeeee],</p>
+        <p>[Write your heartfelt letter here. Pour out your feelings, memories, and why you love her.]</p>
+        <p>With all my love,<br>[Your Name]</p>
+    </div>
+    
+    <h2>Answer These Fun Questions for Me 💕</h2>
+    <form id="valentineForm">
+        <label>Do you love me?</label><br>
+        <input type="radio" name="love" value="Yes"> Yes
+        <input type="radio" name="love" value="No"> No<br>
+        <input type="radio" name="love" value="Absolutely!"> Absolutely!<br><br>
+        
+        <label>What's your favorite memory with me?</label><br>
+        <textarea name="memory" rows="3"></textarea><br>
+        
+        <label>Rate our love on a scale of 1-10:</label><br>
+        <input type="number" name="rating" min="1" max="10"><br>
+        
+        <button type="submit">Submit My Answers</button>
+    </form>
+    
+    <button id="checkBtn">Check Answers (For [Your Name] Only)</button>
+    <div id="answers"></div>
+    
+    <script>
+        const form = document.getElementById('valentineForm');
+        const checkBtn = document.getElementById('checkBtn');
+        const answersDiv = document.getElementById('answers');
+        const password = 'iloveyou';  // Change this to your secret password!
+        
+        // Save answers on form submit
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const answers = {};
+            for (let [key, value] of formData.entries()) {
+                answers[key] = value;
+            }
+            localStorage.setItem('valentineAnswers', JSON.stringify(answers));
+            alert('Thanks for answering! Your responses are saved. 💖');
+            form.reset();
+        });
+        
+        // Check answers with password
+        checkBtn.addEventListener('click', function() {
+            const enteredPassword = prompt('Enter the secret password:');
+            if (enteredPassword === password) {
+                const storedAnswers = localStorage.getItem('valentineAnswers');
+                if (storedAnswers) {
+                    const answers = JSON.parse(storedAnswers);
+                    answersDiv.innerHTML = '<h3>Her Answers:</h3>' +
+                        '<p>Do you love me? ' + (answers.love || 'Not answered') + '</p>' +
+                        '<p>Favorite memory: ' + (answers.memory || 'Not answered') + '</p>' +
+                        '<p>Love rating: ' + (answers.rating || 'Not answered') + '/10</p>';
+                    answersDiv.style.display = 'block';
+                } else {
+                    alert('No answers saved yet.');
+                }
+            } else {
+                alert('Wrong password!');
+            }
+        });
+    </script>
+</body>
+</html>
